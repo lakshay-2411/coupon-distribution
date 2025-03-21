@@ -7,11 +7,14 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const res = await fetch("http://localhost:5000/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
+    const res = await fetch(
+      "https://coupon-distribution-1-d5to.onrender.com/admin/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      }
+    );
     const data = await res.json();
 
     if (res.ok) {

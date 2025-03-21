@@ -10,7 +10,9 @@ export default function CouponClaim() {
   // Fetch available coupons from backend
   const fetchCoupons = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/admin/coupons");
+      const response = await axios.get(
+        "https://coupon-distribution-1-d5to.onrender.com/admin/coupons"
+      );
 
       // Filter only active and unclaimed coupons
       const available = response.data.filter(
@@ -35,7 +37,7 @@ export default function CouponClaim() {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/claim",
+        "https://coupon-distribution-1-d5to.onrender.com/claim",
         {},
         { withCredentials: true }
       );

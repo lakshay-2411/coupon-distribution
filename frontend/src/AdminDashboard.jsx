@@ -22,9 +22,12 @@ const AdminDashboard = () => {
 
   // Fetch ALL Coupons (Both Available & Claimed)
   const fetchCoupons = async () => {
-    const res = await fetch("http://localhost:5000/admin/coupons", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await fetch(
+      "https://coupon-distribution-1-d5to.onrender.com/admin/coupons",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await res.json();
     setCoupons(data);
   };
@@ -32,33 +35,42 @@ const AdminDashboard = () => {
   // Fetch User Claim History
   const fetchClaimHistory = async () => {
     const token = localStorage.getItem("adminToken"); // Get the token
-    const res = await fetch("http://localhost:5000/admin/claims", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await fetch(
+      "https://coupon-distribution-1-d5to.onrender.com/admin/claims",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await res.json();
     setClaimHistory(data);
   };
 
   // Add a Coupon to MongoDB
   const addCoupon = async () => {
-    await fetch("http://localhost:5000/admin/coupons", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ code: newCoupon }),
-    });
+    await fetch(
+      "https://coupon-distribution-1-d5to.onrender.com/admin/coupons",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ code: newCoupon }),
+      }
+    );
     setNewCoupon("");
     fetchCoupons();
   };
 
   // Toggle Coupon Availability
   const toggleCoupon = async (id) => {
-    await fetch(`http://localhost:5000/admin/coupons/${id}/toggle`, {
-      method: "PATCH",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await fetch(
+      `https://coupon-distribution-1-d5to.onrender.com/admin/coupons/${id}/toggle`,
+      {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     fetchCoupons();
   };
 
@@ -70,14 +82,17 @@ const AdminDashboard = () => {
 
   // Update Coupon in MongoDB
   const updateCoupon = async (id) => {
-    await fetch(`http://localhost:5000/admin/coupons/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ code: editCouponCode }),
-    });
+    await fetch(
+      `https://coupon-distribution-1-d5to.onrender.com/admin/coupons/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ code: editCouponCode }),
+      }
+    );
     setEditCouponId(null);
     fetchCoupons();
   };
