@@ -14,12 +14,8 @@ const router = express.Router();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: "https://coupon-distribution-fl5c.onrender.com", // Allow requests only from your frontend
-    credentials: true, // Required for cookies to be sent
-  })
-);
+app.use(cors()); // Allows all origins, no restrictions
+
 
 // Connect to MongoDB
 mongoose
