@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow requests only from your frontend
+    origin: "https://coupon-distribution-fl5c.onrender.com", // Allow requests only from your frontend
     credentials: true, // Required for cookies to be sent
   })
 );
