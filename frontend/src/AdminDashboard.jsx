@@ -83,88 +83,133 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
+          Admin Dashboard
+        </h2>
 
-      {/* Add Coupon Section */}
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Enter Coupon Code"
-          className="border p-2 mr-2"
-          value={newCoupon}
-          onChange={(e) => setNewCoupon(e.target.value)}
-        />
-        <button
-          className="bg-green-500 text-white px-4 py-2 rounded"
-          onClick={addCoupon}
-        >
-          Add Coupon
-        </button>
+        {/* Add Coupon Section */}
+        <div className="bg-gray-200 p-4 rounded-lg mb-6 shadow">
+          <h3 className="text-xl font-semibold mb-2">Add New Coupon</h3>
+          <div className="flex">
+            <input
+              type="text"
+              placeholder="Enter Coupon Code"
+              className="border p-2 flex-1 rounded-l-lg outline-none"
+              value={newCoupon}
+              onChange={(e) => setNewCoupon(e.target.value)}
+            />
+            <button
+              className="bg-green-500 text-white px-4 py-2 rounded-r-lg hover:bg-green-600"
+              onClick={addCoupon}
+            >
+              Add Coupon
+            </button>
+          </div>
+        </div>
+
+        {/* Coupons List */}
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Coupons (Available & Claimed)
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border rounded-lg overflow-hidden shadow-md">
+              <thead>
+                <tr className="bg-blue-500 text-white">
+                  <th className="p-3">Coupon Code</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {coupons.map((coupon) => (
+                  <tr key={coupon._id} className="text-center">
+                    <td className="p-3">
+                      {editCouponId === coupon._id ? (
+                        <input
+                          type="text"
+                          className="border p-2 w-full"
+                          value={editCouponCode}
+                          onChange={(e) => setEditCouponCode(e.target.value)}
+                        />
+                      ) : (
+                        coupon.code
+                      )}
+                    </td>
+                    <td className="p-3">
+                      {coupon.claimed
+                        ? "Claimed"
+                        : coupon.active
+                        ? "Active"
+                        : "Disabled"}
+                    </td>
+                    <td className="p-3">
+                      {editCouponId === coupon._id ? (
+                        <button
+                          className="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600"
+                          onClick={() => updateCoupon(coupon._id)}
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            className={`px-3 py-1 rounded-lg text-white ${
+                              coupon.active
+                                ? "bg-red-500 hover:bg-red-600"
+                                : "bg-green-500 hover:bg-green-600"
+                            }`}
+                            onClick={() => toggleCoupon(coupon._id)}
+                          >
+                            {coupon.active ? "Disable" : "Enable"}
+                          </button>
+                          {!coupon.claimed && (
+                            <button
+                              className="bg-gray-500 text-white px-3 py-1 rounded-lg ml-2 hover:bg-gray-600"
+                              onClick={() => startEditing(coupon)}
+                            >
+                              Edit
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Claim History Section */}
+        <div className="bg-gray-200 p-4 rounded-lg shadow">
+          <h3 className="text-xl font-semibold mb-3">User Claim History</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse border rounded-lg overflow-hidden shadow-md">
+              <thead>
+                <tr className="bg-gray-700 text-white">
+                  <th className="p-3">Coupon</th>
+                  <th className="p-3">Claimed By</th>
+                  <th className="p-3">Date</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {claimHistory.map((claim, index) => (
+                  <tr key={index} className="text-center">
+                    <td className="p-3">{claim.code}</td>
+                    <td className="p-3">{claim.claimedBy}</td>
+                    <td className="p-3">
+                      {new Date(claim.createdAt).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-
-      {/* List of ALL Coupons (Available & Claimed) */}
-      <h3 className="text-xl font-semibold mt-4">
-        Coupons (Available & Claimed)
-      </h3>
-      <ul>
-        {coupons.map((coupon) => (
-          <li key={coupon._id} className="flex justify-between border-b p-2">
-            {editCouponId === coupon._id ? (
-              <>
-                <input
-                  type="text"
-                  className="border p-2"
-                  value={editCouponCode}
-                  onChange={(e) => setEditCouponCode(e.target.value)}
-                />
-                <button
-                  className="bg-yellow-500 text-white px-2 py-1 rounded"
-                  onClick={() => updateCoupon(coupon._id)}
-                >
-                  Save
-                </button>
-              </>
-            ) : (
-              <>
-                <span>
-                  {coupon.code} - {coupon.claimed ? "Claimed" : "Available"}
-                  {coupon.claimedBy && (
-                    <span> (Claimed by: {coupon.claimedBy})</span>
-                  )}
-                </span>
-                <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
-                  onClick={() => toggleCoupon(coupon._id)}
-                >
-                  {coupon.active ? "Disable" : "Enable"}
-                </button>
-                {!coupon.claimed && (
-                  <button
-                    className="bg-gray-500 text-white px-2 py-1 rounded ml-2"
-                    onClick={() => startEditing(coupon)}
-                  >
-                    Edit
-                  </button>
-                )}
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-
-      {/* Claim History from Backend */}
-      <h3 className="text-xl font-semibold mt-6">User Claim History</h3>
-      <ul>
-        {claimHistory.map((claim, index) => (
-          <li key={index} className="border-b p-2">
-            <span>
-              Coupon: {claim.code} | IP: {claim.claimedBy} | Date:{" "}
-              {new Date(claim.createdAt).toLocaleString()}
-            </span>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

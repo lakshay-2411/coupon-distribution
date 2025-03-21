@@ -49,26 +49,28 @@ export default function CouponClaim() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-600 to-blue-500 text-white">
       <ToastContainer position="top-center" autoClose={1000} />
-      <div className="bg-white p-6 rounded-lg shadow-md text-center">
-        <h1 className="text-2xl font-bold">Claim Your Coupon</h1>
+
+      <div className="bg-white text-gray-800 p-8 rounded-lg shadow-xl text-center w-96">
+        <h1 className="text-3xl font-bold mb-4">🎉 Claim Your Coupon 🎉</h1>
 
         {claimedCoupon ? (
-          <p className="mt-4 font-bold text-green-500">
-            Your Coupon Code: {claimedCoupon}
+          <p className="mt-6 text-2xl font-bold text-green-600 bg-gray-100 p-4 rounded-lg shadow-md border border-green-400 animate-pulse">
+            ✅ Your Coupon Code:{" "}
+            <span className="text-red-500">{claimedCoupon}</span>
           </p>
         ) : (
           <button
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="mt-6 px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 transform hover:scale-105 transition duration-300"
             onClick={claimCoupon}
           >
-            Claim Now
+            🎁 Claim Now
           </button>
         )}
 
-        <p className="mt-2 text-gray-500">
-          {availableCoupons.length} active coupons left
+        <p className="mt-4 text-gray-600">
+          {availableCoupons.length} active coupons left 🏆
         </p>
       </div>
     </div>
