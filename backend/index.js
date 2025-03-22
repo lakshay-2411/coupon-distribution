@@ -14,8 +14,13 @@ const router = express.Router();
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors()); // Allows all origins, no restrictions
-
+app.use(
+  cors({
+    origin:
+      "https://coupon-distribution-no9c6xhk8-lakshays-projects-8b61cb8d.vercel.app",
+    credentials: true, // Required for cookies
+  })
+);
 
 // Connect to MongoDB
 mongoose
