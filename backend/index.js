@@ -18,7 +18,9 @@ app.use(
   cors({
     origin:
       "https://coupon-distribution-no9c6xhk8-lakshays-projects-8b61cb8d.vercel.app",
-    credentials: true, // Required for cookies
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
